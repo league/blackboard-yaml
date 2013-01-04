@@ -1,0 +1,133 @@
+#!/usr/bin/python
+from subprocess import Popen, PIPE
+import os
+import sys
+import uuid
+import yaml
+
+#     - tab-delimited text file, don't use quotes to delimit text fields.
+# ***** Multiple choice
+#       - MC, question, Choice1, correct/incorrect, Choice2, c/i, Choice3, c/i
+#       - TF, question, TRUE/FALSE
+#       - MA, question, Choice1, correct/incorrect, Choice2, c/i, Choice3, c/i
+#         (multiple answer)
+#       - ORD = ordering
+#       - ESS = essay
+#       - MAT = matching
+#       - FIB = fill in blanks
+#       - FIL = fill
+#       - NUM = numeric
+#       - SR = short response
+#       - FIB_PLUS = multiple fill in blanks
+
+try:
+    MY_NAME = sys.argv[0]
+    YAML_FILE = sys.argv[1]
+except IndexError:
+    print("Usage: %s INPUT.yaml" % os.path.basename(MY_NAME))
+    exit(1)
+
+PANDOC_ARGS = ['pandoc', '-r', 'markdown', '-w', 'html']
+
+HTML_PRELUDE = """
+<!DOCTYPE html>
+<style>
+.correct { background: #efe; }
+.incorrect { background: #fee; }
+ol.input input {
+  display: none;
+  float: left;
+  position: relative;
+  left: -2em;
+  top: 1ex;
+}
+div.block {
+}
+</style>
+<ol>
+"""
+
+HTML_POSTLUDE = """
+</ol>
+"""
+
+def main():
+    (BASE_NAME, _) = os.path.splitext(YAML_FILE)
+    CSV_FILE = BASE_NAME + ".txt"
+    HTML_FILE = BASE_NAME + ".html"
+    f = open(YAML_FILE)
+    data = yaml.load(f)
+    f.close()
+    HANDLERS = {
+        'mc': multipleChoice,
+        'ma': multipleAnswer,
+    }
+    csv = open(CSV_FILE, 'w')
+    html = open(HTML_FILE, 'w')
+    html.write(HTML_PRELUDE)
+    for entry in data:
+        HANDLERS[entry['type']](entry, csv, html)
+    html.write(HTML_POSTLUDE)
+    html.close()
+    print "Wrote", HTML_FILE
+    csv.close()
+    print "Wrote", CSV_FILE
+
+def correctOrNot(a):
+    if a['correct']: return 'correct'
+    else: return 'incorrect'
+
+def interpretMarkdown(txt):
+    p = Popen(PANDOC_ARGS, stdin=PIPE, stdout=PIPE)
+    p.stdin.write(str(txt))
+    p.stdin.close()
+    # Remove newlines, or inside <pre>, replace with <br>
+    pre = False
+    buf = ''
+    for line in p.stdout.readlines():
+        if not pre and line.find("<pre") >= 0:
+            pre = True
+        elif pre and line.find("</pre>") >= 0:
+            pre = False
+        buf += line[:-1]
+        if pre:
+            buf += '<br>'
+    return buf
+
+def answersCSV(answers, seq):
+    for a in answers:
+        seq.append(interpretMarkdown(a['answer']))
+        seq.append(correctOrNot(a))
+
+def multiCSV(kind, entry, csv):
+    seq = [kind, interpretMarkdown(entry['question'])]
+    answersCSV(entry['answers'], seq)
+    csv.write("\t".join(seq))
+    csv.write("\n")
+
+def answersHTML(answers, inputType, html):
+    html.write("<ol class='input' type='a'>")
+    id = uuid.uuid4().hex
+    for a in answers:
+        html.write("<li class='%s'><div class='block'><input name='%s' type='%s'>"
+                   % (correctOrNot(a), id, inputType))
+        html.write(interpretMarkdown(a['answer']))
+        html.write("</div></li>")
+    html.write("</ol>")
+
+def multipleChoice(entry, csv, html):
+    multiCSV('MC', entry, csv)
+    html.write("<li><b>Multiple choice:</b>")
+    html.write(interpretMarkdown(entry['question']))
+    answersHTML(entry['answers'], 'radio', html)
+    html.write("</li>\n")
+
+def multipleAnswer(entry, csv, html):
+    multiCSV('MA', entry, csv)
+    html.write("<li><b>Multiple answer:</b>")
+    html.write(interpretMarkdown(entry['question']))
+    answersHTML(entry['answers'], 'checkbox', html)
+    html.write("</li>\n")
+
+
+main()
