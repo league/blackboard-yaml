@@ -1,0 +1,27 @@
+# Blackboard-YAML
+
+Generate quizzes for Blackboard Learn™ from a YAML+Markdown
+specification. We use the CSV-import feature of Blackboard, but format
+the CSV file so the questions and answers can have code blocks or
+other sorts of markup.
+
+See the `example.yaml` file for a sample input. To generate the
+output, simply run:
+
+    ./bbtest example.yaml
+
+This produces two files:
+
+ - `example.html`
+ - `example.txt`
+
+You can view the HTML file to debug your markup and generally check
+your work. The sample output file is included in the repository for
+your convenience. The text file contains CSV that you upload into the
+Blackboard test center.
+
+Requires python-yaml and python-markdown. Currently supports
+multiple-choice and multiple-answer questions only. Contributions
+welcome.
+
+Enjoy!
