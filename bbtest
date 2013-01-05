@@ -4,6 +4,7 @@ import os
 import sys
 import uuid
 import yaml
+import markdown
 
 #     - tab-delimited text file, don't use quotes to delimit text fields.
 # ***** Multiple choice
@@ -26,8 +27,6 @@ try:
 except IndexError:
     print("Usage: %s INPUT.yaml" % os.path.basename(MY_NAME))
     exit(1)
-
-PANDOC_ARGS = ['pandoc', '-r', 'markdown', '-w', 'html']
 
 HTML_PRELUDE = """
 <!DOCTYPE html>
@@ -78,18 +77,18 @@ def correctOrNot(a):
     else: return 'incorrect'
 
 def interpretMarkdown(txt):
-    p = Popen(PANDOC_ARGS, stdin=PIPE, stdout=PIPE)
-    p.stdin.write(str(txt))
-    p.stdin.close()
+    if(txt.startswith("~~~~\n")):
+        txt = txt[4:]
+    html = markdown.markdown(txt)
     # Remove newlines, or inside <pre>, replace with <br>
     pre = False
     buf = ''
-    for line in p.stdout.readlines():
+    for line in html.splitlines():
         if not pre and line.find("<pre") >= 0:
             pre = True
         elif pre and line.find("</pre>") >= 0:
             pre = False
-        buf += line[:-1]
+        buf += line + ' '
         if pre:
             buf += '<br>'
     return buf

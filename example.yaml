@@ -14,10 +14,9 @@
       correct: false
 - type: ma
   question: |
-    In the following Java program, which methods are *class* methods
+    In the following Java program, which methods are *class* methods 
     (choose all that apply).
 
-    ~~~~
         public class Foo {
             public static void main(String[] args) {
                 System.out.println(new Foo());
@@ -32,7 +31,6 @@
                 return y+1;
             }
         }
-    ~~~~
 
   answers:
     - answer: "`Foo`"
@@ -47,16 +45,14 @@
       correct: false
 - type: ma
   question: |
-    Suppose that a program uses the classes `Apple`, `Banana`, and `Carrot`, and
-    these variables:
+    Suppose that a program uses the classes `Apple`, `Banana`, and `Carrot`, 
+    and these variables:
 
-    ~~~~
         Apple a = new Apple();
         Banana b = new Banana();
         Carrot c = new Carrot();
-    ~~~~
 
-    Which of the following method calls invoke *object* methods (select all
+    Which of the following method calls invoke *object* methods (select all 
     that apply)?
 
   answers:
@@ -75,11 +71,9 @@
     Suppose that a program uses the classes `Antelope`, `Bee`, and `Cat`, and
     these variables:
 
-    ~~~~
         Antelope a = new Antelope();
         Bee b = new Bee();
         Cat c = new Cat();
-    ~~~~
 
     Which of the following method calls invoke *class* methods (select all
     that apply)?
@@ -102,47 +96,40 @@
   answers:
     - answer: |
         ~~~~
-        a = b;
-        b = a;
-        ~~~~
+            a = b;
+            b = a;
       correct: false
     - answer: |
         ~~~~
-        a **= b;
-        ~~~~
+            a **= b;
       correct: false
     - answer: |
         ~~~~
-        int t = a;
-        a = b;
-        b = a;
-        ~~~~
+            int t = a;
+            a = b;
+            b = a;
       correct: false
     - answer: |
         ~~~~
-        int t = a;
-        b = a;
-        t = b;
-        ~~~~
+            int t = a;
+            b = a;
+            t = b;
       correct: false
     - answer: |
         ~~~~
-        int t = a;
-        a = b;
-        b = t;
-        ~~~~
+            int t = a;
+            a = b;
+            b = t;
       correct: true
 - type: mc
   question: |
     What are the values of `a` and `b` after executing the following code fragment:
 
-    ~~~~
         int a = 4;
         int b = 8;
         int t = a;
         a = b;
         b = a;
-    ~~~~
   answers:
     - answer: "`a` is 4, `b` is 8"
       correct: false
@@ -158,9 +145,7 @@
   question: |
     Given the following array declaration,
 
-    ~~~~
         int[] xs = { 2, 4, 1, 9, 5 };
-    ~~~~
 
     What is the result of the expression `xs[xs[1]]` ?
   answers:
@@ -178,9 +163,7 @@
   question: |
     Given the following array declaration,
 
-    ~~~~
         int[] xs = { 2, 4, 1, 9, 5 };
-    ~~~~
 
     What is the result of the expression `xs[xs[0]+1]` ?
   answers:
@@ -198,59 +181,52 @@
   question: |
     Which `while` loop is equivalent to the following `for` loop?
 
-    ~~~~
         int i;
         for(i = 3; i <= 9; i++) {
             System.out.println(i);
         }
-    ~~~~
 
   answers:
     - answer: |
         ~~~~
-        i = 3;
-        while(i <= 9) {
-            i++;
-            System.out.println(i);
-        }
-        ~~~~
+            i = 3;
+            while(i <= 9) {
+                i++;
+                System.out.println(i);
+            }
       correct: false
     - answer: |
         ~~~~
-        i = 3;
-        while(i <= 9) {
-            System.out.println(i);
-            i++;
-        }
-        ~~~~
+            i = 3;
+            while(i <= 9) {
+                System.out.println(i);
+                i++;
+            }
       correct: true
     - answer: |
         ~~~~
-        while(i = 3) {
+            while(i = 3) {
+                if(i <= 9) {
+                    System.out.println(i);
+                }
+                i++;
+            }
+      correct: false
+    - answer: |
+        ~~~~
+            i = 3;
+            while(i <= 9) {
+                System.out.println(i);
+            }
+      correct: false
+    - answer: |
+        ~~~~
+            i = 3;
             if(i <= 9) {
-                System.out.println(i);
+                while(i++) {
+                    System.out.println(i);
+                }
             }
-            i++;
-        }
-        ~~~~
-      correct: false
-    - answer: |
-        ~~~~
-        i = 3;
-        while(i <= 9) {
-            System.out.println(i);
-        }
-        ~~~~
-      correct: false
-    - answer: |
-        ~~~~
-        i = 3;
-        if(i <= 9) {
-            while(i++) {
-                System.out.println(i);
-            }
-        }
-        ~~~~
       correct: false
 - type: ma
   question: |
