@@ -1,0 +1,270 @@
+- type: mc
+  question: |
+    Which Java keyword is used to distinguish object methods from class methods?
+  answers:
+    - answer: "`public`"
+      correct: false
+    - answer: "`static`"
+      correct: true
+    - answer: "`final`"
+      correct: false
+    - answer: "`void`"
+      correct: false
+    - answer: "`class`"
+      correct: false
+- type: ma
+  question: |
+    In the following Java program, which methods are *class* methods
+    (choose all that apply).
+
+    ~~~~
+        public class Foo {
+            public static void main(String[] args) {
+                System.out.println(new Foo());
+            }
+            public String toString() {
+                return "BAR";
+            }
+            public static int flub(int x) {
+                return 2*x + 1;
+            }
+            public int embiggen(int y) {
+                return y+1;
+            }
+        }
+    ~~~~
+
+  answers:
+    - answer: "`Foo`"
+      correct: false
+    - answer: "`main`"
+      correct: true
+    - answer: "`toString`"
+      correct: false
+    - answer: "`flub`"
+      correct: true
+    - answer: "`embiggen`"
+      correct: false
+- type: ma
+  question: |
+    Suppose that a program uses the classes `Apple`, `Banana`, and `Carrot`, and
+    these variables:
+
+    ~~~~
+        Apple a = new Apple();
+        Banana b = new Banana();
+        Carrot c = new Carrot();
+    ~~~~
+
+    Which of the following method calls invoke *object* methods (select all
+    that apply)?
+
+  answers:
+    - answer: "`Apple.bake()`"
+      correct: false
+    - answer: "`a.peel()`"
+      correct: true
+    - answer: "`Banana.bread()`"
+      correct: false
+    - answer: "`Carrot.organic()`"
+      correct: false
+    - answer: "`b.peel()`"
+      correct: true
+- type: ma
+  question: |
+    Suppose that a program uses the classes `Antelope`, `Bee`, and `Cat`, and
+    these variables:
+
+    ~~~~
+        Antelope a = new Antelope();
+        Bee b = new Bee();
+        Cat c = new Cat();
+    ~~~~
+
+    Which of the following method calls invoke *class* methods (select all
+    that apply)?
+
+  answers:
+    - answer: "`Cat.meow()`"
+      correct: true
+    - answer: "`Bee.queen()`"
+      correct: true
+    - answer: "`c.scratch()`"
+      correct: false
+    - answer: "`b.makeHoney()`"
+      correct: false
+    - answer: "`Antelope.play()`"
+      correct: true
+- type: mc
+  question: |
+    Suppose that a program has two integer variables, `a` and `b`. Which code
+    fragment correctly *swaps* the values of those two variables?
+  answers:
+    - answer: |
+        ~~~~
+        a = b;
+        b = a;
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        a **= b;
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        int t = a;
+        a = b;
+        b = a;
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        int t = a;
+        b = a;
+        t = b;
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        int t = a;
+        a = b;
+        b = t;
+        ~~~~
+      correct: true
+- type: mc
+  question: |
+    What are the values of `a` and `b` after executing the following code fragment:
+
+    ~~~~
+        int a = 4;
+        int b = 8;
+        int t = a;
+        a = b;
+        b = a;
+    ~~~~
+  answers:
+    - answer: "`a` is 4, `b` is 8"
+      correct: false
+    - answer: "`a` is 8, `b` is 4"
+      correct: false
+    - answer: "`a` is 8, `b` is 8"
+      correct: true
+    - answer: "`a` is 4, `b` is 4"
+      correct: false
+    - answer: "`a` is 4, `b` is 6"
+      correct: false
+- type: mc
+  question: |
+    Given the following array declaration,
+
+    ~~~~
+        int[] xs = { 2, 4, 1, 9, 5 };
+    ~~~~
+
+    What is the result of the expression `xs[xs[1]]` ?
+  answers:
+    - answer: "`4`"
+      correct: false
+    - answer: "`1`"
+      correct: false
+    - answer: "`9`"
+      correct: false
+    - answer: "`5`"
+      correct: true
+    - answer: "`ArrayIndexOutOfBounds`"
+      correct: false
+- type: mc
+  question: |
+    Given the following array declaration,
+
+    ~~~~
+        int[] xs = { 2, 4, 1, 9, 5 };
+    ~~~~
+
+    What is the result of the expression `xs[xs[0]+1]` ?
+  answers:
+    - answer: "`4`"
+      correct: false
+    - answer: "`1`"
+      correct: false
+    - answer: "`9`"
+      correct: true
+    - answer: "`5`"
+      correct: false
+    - answer: "`ArrayIndexOutOfBounds`"
+      correct: false
+- type: mc
+  question: |
+    Which `while` loop is equivalent to the following `for` loop?
+
+    ~~~~
+        int i;
+        for(i = 3; i <= 9; i++) {
+            System.out.println(i);
+        }
+    ~~~~
+
+  answers:
+    - answer: |
+        ~~~~
+        i = 3;
+        while(i <= 9) {
+            i++;
+            System.out.println(i);
+        }
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        i = 3;
+        while(i <= 9) {
+            System.out.println(i);
+            i++;
+        }
+        ~~~~
+      correct: true
+    - answer: |
+        ~~~~
+        while(i = 3) {
+            if(i <= 9) {
+                System.out.println(i);
+            }
+            i++;
+        }
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        i = 3;
+        while(i <= 9) {
+            System.out.println(i);
+        }
+        ~~~~
+      correct: false
+    - answer: |
+        ~~~~
+        i = 3;
+        if(i <= 9) {
+            while(i++) {
+                System.out.println(i);
+            }
+        }
+        ~~~~
+      correct: false
+- type: ma
+  question: |
+    Which of the following statements correctly characterize the distinction
+    between the `==` operator and the `equals` method on objects (select all
+    that apply)?
+  answers:
+    - answer: The `==` operator relates to object *identity;* it returns true only when both sides refer to the *same object.*
+      correct: true
+    - answer: The `equals` method relates to object *identity;* it returns true only when both sides refer to the *same object.*
+      correct: false
+    - answer: The `equals` method can be overridden to produce different behavior in different classes.
+      correct: true
+    - answer: There is no distinction; which you use is a matter of preference.
+      correct: false
+    - answer: When `==` returns true, then `equal` will also return true.
+      correct: false
